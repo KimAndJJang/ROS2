@@ -88,6 +88,11 @@ private:
         // RL: Predict action based on current state
         auto action_values = rl_module_->predict(current_state_);
         
+        if (action_values.empty()) {
+            RCLCPP_WARN(this->get_logger(), "Empty action values from RL module");
+            return;
+        }
+        
         // Find best action
         auto max_it = std::max_element(action_values.begin(), action_values.end());
         int best_action = std::distance(action_values.begin(), max_it);

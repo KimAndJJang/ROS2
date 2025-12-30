@@ -38,8 +38,8 @@ void ReinforcementLearning::train(const std::vector<double>& state, double rewar
     if (state.empty()) return;
     
     // Simple Q-learning update
-    int state_idx = static_cast<int>(state[0]) % impl_->q_table.size();
-    int action = 0;
+    int state_idx = std::abs(static_cast<int>(state[0])) % impl_->q_table.size();
+    int action = (state.size() > 1) ? static_cast<int>(state[1]) % 4 : 0;
     
     double max_future_q = *std::max_element(
         impl_->q_table[state_idx].begin(),
@@ -58,7 +58,7 @@ std::vector<double> ReinforcementLearning::predict(const std::vector<double>& st
         return {0.0, 0.0, 0.0, 0.0};
     }
     
-    int state_idx = static_cast<int>(state[0]) % impl_->q_table.size();
+    int state_idx = std::abs(static_cast<int>(state[0])) % impl_->q_table.size();
     
     std::uniform_real_distribution<double> dist(0.0, 1.0);
     if (dist(impl_->rng) < impl_->exploration_rate) {
@@ -79,7 +79,7 @@ double ReinforcementLearning::getQValue(const std::vector<double>& state, int ac
         return 0.0;
     }
     
-    int state_idx = static_cast<int>(state[0]) % impl_->q_table.size();
+    int state_idx = std::abs(static_cast<int>(state[0])) % impl_->q_table.size();
     return impl_->q_table[state_idx][action];
 }
 

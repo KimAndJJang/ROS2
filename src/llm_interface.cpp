@@ -23,7 +23,7 @@ LLMInterface::~LLMInterface() = default;
 
 void LLMInterface::initialize() {
     // Initialize LLM parameters
-    impl_->embedding_dim = 256;
+    // embedding_dim is already set in constructor
 }
 
 LLMResponse LLMInterface::generateText(const std::string& prompt) {

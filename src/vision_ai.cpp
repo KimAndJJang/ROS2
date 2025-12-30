@@ -21,7 +21,7 @@ VisionAI::~VisionAI() = default;
 
 void VisionAI::initialize() {
     // Initialize vision model parameters
-    impl_->feature_dim = 128;
+    // feature_dim is already set in constructor
 }
 
 std::vector<DetectionResult> VisionAI::detectObjects(
