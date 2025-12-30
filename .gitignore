@@ -31,3 +31,6 @@ __pycache__/
 # ROS2 specific
 *.bag
 *.db3
+
+# CodeQL artifacts
+_codeql_detected_source_root
