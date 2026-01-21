@@ -1,121 +1,121 @@
-# ROS2 RL-Vision-LLM Project
+# ROS2 RL-Vision-LLM 프로젝트
 
-A ROS2 project integrating **Reinforcement Learning**, **Vision AI**, and **LLM** (Large Language Models) implemented entirely in **C/C++**.
+이 저장소는 **C/C++**로 구현된 ROS2 기반 프로젝트로, **강화학습(Reinforcement Learning)**, **비전 AI(Computer Vision)**, 그리고 **대형 언어 모델(LLM)** 인터페이스를 통합한 예제입니다.
 
-## Project Overview
+## 프로젝트 개요
 
-This project combines three cutting-edge AI technologies in a ROS2 framework:
+이 프로젝트는 ROS2 프레임워크에서 세 가지 최신 AI 기술을 결합합니다:
 
-- **Reinforcement Learning (RL)**: Q-learning based agent for autonomous decision-making
-- **Vision AI**: Computer vision module for object detection, feature extraction, and tracking
-- **LLM Interface**: Natural language processing for command interpretation and text generation
+- **강화학습(RL)**: 자율 의사결정을 위한 Q-러닝 기반 에이전트
+- **비전 AI**: 객체 검출, 특징 추출 및 추적을 위한 컴퓨터 비전 모듈
+- **LLM 인터페이스**: 명령 해석 및 텍스트 생성을 위한 자연어 처리
 
-## Architecture
+## 아키텍처
 
-### Components
+### 구성 요소
 
-1. **Reinforcement Learning Module** (`reinforcement_learning.cpp`)
-   - Q-learning implementation
-   - State-action value estimation
-   - Policy optimization with exploration-exploitation strategy
+1. **강화학습 모듈** (`reinforcement_learning.cpp`)
+   - Q-러닝 구현
+   - 상태-행동 가치 추정
+   - 탐험-활용(ε-greedy) 전략을 통한 정책 최적화
 
-2. **Vision AI Module** (`vision_ai.cpp`)
-   - Object detection
-   - Feature extraction from images
-   - Object tracking capabilities
+2. **비전 AI 모듈** (`vision_ai.cpp`)
+   - 객체 검출
+   - 이미지로부터 특징 추출
+   - 객체 추적 기능
 
-3. **LLM Interface Module** (`llm_interface.cpp`)
-   - Natural language command processing
-   - Text generation and embeddings
-   - Action interpretation from state features
+3. **LLM 인터페이스 모듈** (`llm_interface.cpp`)
+   - 자연어 명령 처리
+   - 텍스트 생성 및 임베딩
+   - 상태 특징으로부터 동작 해석
 
-4. **Main Node** (`main.cpp`)
-   - Integrates all three modules
-   - ROS2 node with publishers and subscribers
-   - Real-time processing loop
+4. **메인 노드** (`main.cpp`)
+   - 세 모듈 통합
+   - 퍼블리셔/서브스크라이버를 포함한 ROS2 노드
+   - 실시간 처리 루프
 
-## Building the Project
+## 빌드 방법
 
-### Prerequisites
+### 사전 요구사항
 
-- ROS2 (Humble, Iron, or Rolling)
-- C++17 compatible compiler
-- CMake 3.8 or higher
+- ROS2 (Humble, Iron 또는 Rolling 권장)
+- C++17 호환 컴파일러
+- CMake 3.8 이상
 
-### Build Instructions
+### 빌드 안내
 
 ```bash
-# Source ROS2
+# ROS2 환경 설정 (배포판 이름으로 교체)
 source /opt/ros/<ros2-distro>/setup.bash
 
-# Build the package
+# 패키지 빌드
 colcon build --packages-select ros2_rl_vision_llm
 
-# Source the workspace
+# 워크스페이스 환경 설정
 source install/setup.bash
 ```
 
-## Running the Node
+> 참고: Windows 환경에서는 PowerShell 스크립트나 ROS2 Windows 설치 지침을 따르세요.
+
+## 노드 실행
 
 ```bash
-# Run the main node
+# 메인 노드 실행
 ros2 run ros2_rl_vision_llm rl_vision_llm_node
 ```
 
-## Topics
+## 토픽(Topics)
 
-### Subscribed Topics
+### 구독(Subscribe) 토픽
 
-- `/camera/image_raw` (sensor_msgs/Image): Camera input for vision processing
-- `/voice_command` (std_msgs/String): Natural language commands
+- `/camera/image_raw` (sensor_msgs/Image): 비전 처리용 카메라 입력
+- `/voice_command` (std_msgs/String): 자연어 명령 입력
 
-### Published Topics
+### 발행(Publish) 토픽
 
-- `/cmd_vel` (geometry_msgs/Twist): Velocity commands for robot control
-- `/system_status` (std_msgs/String): System status updates
+- `/cmd_vel` (geometry_msgs/Twist): 로봇 제어를 위한 속도 명령
+- `/system_status` (std_msgs/String): 시스템 상태 업데이트
 
-## Usage Examples
+## 사용 예시
 
-### Sending Commands
+### 명령 전송
 
 ```bash
-# Send a voice command
+# 음성(텍스트) 명령 전송
 ros2 topic pub /voice_command std_msgs/String "data: 'move forward'"
 
-# Send stop command
+# 정지 명령 전송
 ros2 topic pub /voice_command std_msgs/String "data: 'stop'"
 ```
 
-### Monitoring Status
+### 상태 모니터링
 
 ```bash
-# Monitor system status
+# 시스템 상태 확인
 ros2 topic echo /system_status
 
-# Monitor velocity commands
+# 속도 명령 확인
 ros2 topic echo /cmd_vel
 ```
 
-## Implementation Details
+## 구현 상세
 
-### Reinforcement Learning
-- Uses Q-learning algorithm for decision-making
-- Maintains Q-table for state-action values
-- Implements ε-greedy exploration strategy
+### 강화학습
+- Q-러닝 알고리즘을 사용하여 의사결정 수행
+- 상태-행동 값(Q-table) 유지
+- ε-greedy 탐험 전략 구현
 
-### Vision AI
-- Processes camera images for object detection
-- Extracts high-dimensional features for RL agent
-- Provides object tracking capabilities
+### 비전 AI
+- 카메라 이미지를 처리하여 객체 검출 수행
+- RL 에이전트를 위한 고차원 특징 추출
+- 객체 추적 기능 제공
 
-### LLM Interface
-- Processes natural language commands
-- Generates text embeddings for semantic understanding
-- Interprets robot actions based on state features
+### LLM 인터페이스
+- 자연어 명령을 처리
+- 의미적 이해를 위한 텍스트 임베딩 생성
+- 상태 특징을 바탕으로 로봇 동작 해석
 
-## Development
-
-### Code Structure
+## 개발 구조
 
 ```
 ros2_rl_vision_llm/
@@ -133,14 +133,14 @@ ros2_rl_vision_llm/
     └── llm_interface.cpp
 ```
 
-## License
+## 라이선스
 
 Apache License 2.0
 
-## Future Enhancements
+## 향후 개선 사항
 
-- Integration with actual deep learning frameworks (TensorFlow, PyTorch)
-- Advanced vision models (YOLO, R-CNN for object detection)
-- Transformer-based LLM integration
-- Multi-agent reinforcement learning
-- Real-world robot platform integration
+- TensorFlow 또는 PyTorch 같은 딥러닝 프레임워크 통합
+- 고성능 객체 검출 모델(YOLO, R-CNN 등) 적용
+- Transformer 기반 LLM 통합
+- 다중 에이전트 강화학습
+- 실제 로봇 플랫폼과의 통합
