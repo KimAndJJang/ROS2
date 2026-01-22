@@ -38,5 +38,7 @@ jobs:
         if: always()
         shell: bash
         run: |
-          set -euo pipefail
+          # Avoid 'nounset' and ensure ROS env is sourced
+          set -eo pipefail
+          source /opt/ros/humble/setup.bash
           colcon build --packages-select ros2_rl_vision_llm --cmake-args -L || true
