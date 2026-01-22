@@ -29,7 +29,8 @@ jobs:
       - name: Build package
         shell: bash
         run: |
-          set -euo pipefail
+          # Avoid 'nounset' because ROS setup scripts reference unset vars
+          set -eo pipefail
           source /opt/ros/humble/setup.bash
           colcon build --packages-select ros2_rl_vision_llm --event-handlers console_cohesion+
 
