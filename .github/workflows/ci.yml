@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, ci-* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up ROS 2 (Humble)
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          rosdep update
+          rosdep install --from-paths . --ignore-src -y --rosdistro humble
+
+      - name: Build package
+        shell: bash
+        run: |
+          # Avoid 'nounset' because ROS setup scripts reference unset vars
+          set -eo pipefail
+          source /opt/ros/humble/setup.bash
+          colcon build --packages-select ros2_rl_vision_llm --event-handlers console_cohesion+
+
+      - name: Show build summary
+        if: always()
+        shell: bash
+        run: |
+          # Avoid 'nounset' and ensure ROS env is sourced
+          set -eo pipefail
+          source /opt/ros/humble/setup.bash
+          colcon build --packages-select ros2_rl_vision_llm --cmake-args -L || true

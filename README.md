@@ -59,9 +59,21 @@ source install/setup.bash
 
 ## 노드 실행
 
+### 기본 실행
+
 ```bash
 # 메인 노드 실행
 ros2 run ros2_rl_vision_llm rl_vision_llm_node
+```
+
+### Launch 파일 사용
+
+```bash
+# Launch 파일로 실행 (권장)
+ros2 launch ros2_rl_vision_llm rl_vision_llm.launch.py
+
+# 로그 레벨 변경
+ros2 launch ros2_rl_vision_llm rl_vision_llm.launch.py log_level:=debug
 ```
 
 ## 토픽(Topics)
